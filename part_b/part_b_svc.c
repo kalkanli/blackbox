@@ -33,7 +33,7 @@ part_b_program_1(struct svc_req *rqstp, register SVCXPRT *transp)
 
 	case part_b:
 		_xdr_argument = (xdrproc_t) xdr_input;
-		_xdr_result = (xdrproc_t) xdr_wrapstring;
+		_xdr_result = (xdrproc_t) xdr_output;
 		local = (char *(*)(char *, struct svc_req *)) part_b_1_svc;
 		break;
 

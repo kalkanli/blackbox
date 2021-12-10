@@ -3,10 +3,14 @@
 #include <sys/wait.h>
 #include "part_b.h"
 
-char **
+output *
 part_b_1_svc(input *argp, struct svc_req *rqstp)
 {
-	static char * result;
+	static output  result;
+
+	result.result = (char *)malloc(sizeof(char)*255);
+	char temp[255] = {'\0'};
+	strcpy(result.result,temp);
 
 	int number1 = argp->number1;
 	int number2 = argp->number2;
@@ -36,8 +40,8 @@ part_b_1_svc(input *argp, struct svc_req *rqstp)
 	close(fd1[0]);
     close(fd2[1]);
 
-	char s1[20] = { '\n' };
-	char s2[20] = { '\n' };
+	char s1[20] = { '\0' };
+	char s2[20] = { '\0' };
 	
 	sprintf(s1, "%d", number1);
 	sprintf(s2, "%d", number2);
@@ -54,15 +58,13 @@ part_b_1_svc(input *argp, struct svc_req *rqstp)
 	int status;
     waitpid(pid, &status, 0);
 	if(status == 0)
-	{
-		
+	{ 
+		strcpy(result.result, "SUCCESS:\n");
 	}
 	else
 	{
-		// *result = &strcat("FAIL:\n", output);
-		// printf("%s\n",result);
+		strcpy(result.result, "FAIL:\n");
 	}
-	printf("here\n");
-
+	strcat(result.result, output);
 	return &result;
 }
