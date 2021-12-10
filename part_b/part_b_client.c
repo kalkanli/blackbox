@@ -11,7 +11,7 @@ void
 part_b_program_1(char *host, char *blackbox, int number1, int number2)
 {
 	CLIENT *clnt;
-	int  *result_1;
+	output  *result_1;
 	input  part_b_1_arg;
 
 #ifndef	DEBUG
@@ -24,13 +24,11 @@ part_b_program_1(char *host, char *blackbox, int number1, int number2)
 	part_b_1_arg.number1 = number1;
 	part_b_1_arg.number2 = number2;
 	part_b_1_arg.path = blackbox;
-	printf("%s\n", part_b_1_arg.path);
-
 	result_1 = part_b_1(&part_b_1_arg, clnt);
-	if (result_1 == (int *) NULL) {
+	if (result_1 == (output *) NULL) {
 		clnt_perror (clnt, "call failed");
 	} else {
-		printf("%d \n", *result_1);
+		printf("%d\n", result_1->status_code);
 	}
 #ifndef	DEBUG
 	clnt_destroy (clnt);

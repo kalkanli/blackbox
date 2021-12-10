@@ -3,15 +3,15 @@
 #include <sys/wait.h>
 #include "part_b.h"
 
-int *
+output *
 part_b_1_svc(input *argp, struct svc_req *rqstp)
 {
-	static int  result;
-
+	static output  result;
+	
 	int number1 = argp->number1;
 	int number2 = argp->number2;
 	char *blackbox = argp->path;
-	write(1, blackbox, 2000);
+	write(1, blackbox, sizeof(blackbox));
 
 	int fd1[2];
 	int fd2[2];
@@ -53,16 +53,12 @@ part_b_1_svc(input *argp, struct svc_req *rqstp)
 	read(fd2[0], output, sizeof(output));
 	close(fd2[0]);
 
+	write(1, output, sizeof(output));
+
 	int status;
     waitpid(pid, &status, 0);
-    if (status == 0)
-    {
-        result = atoi(output);
-    }
-    else
-    {
-        result = -21;
-    }
+    result.message = output;
+	result.status_code = status;
 
 	return &result;
 }

@@ -10,11 +10,23 @@ xdr_input (XDR *xdrs, input *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_pointer (xdrs, (char **)&objp->path, sizeof (char), (xdrproc_t) xdr_char))
+	 if (!xdr_string (xdrs, &objp->path, ~0))
 		 return FALSE;
 	 if (!xdr_int (xdrs, &objp->number1))
 		 return FALSE;
 	 if (!xdr_int (xdrs, &objp->number2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_output (XDR *xdrs, output *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_string (xdrs, &objp->message, ~0))
+		 return FALSE;
+	 if (!xdr_int (xdrs, &objp->status_code))
 		 return FALSE;
 	return TRUE;
 }

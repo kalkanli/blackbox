@@ -21,19 +21,25 @@ struct input {
 };
 typedef struct input input;
 
+struct output {
+	char *message;
+	int status_code;
+};
+typedef struct output output;
+
 #define PART_B_PROGRAM 0x12345678
 #define PART_B_VERSION 1
 
 #if defined(__STDC__) || defined(__cplusplus)
 #define part_b 1
-extern  int * part_b_1(input *, CLIENT *);
-extern  int * part_b_1_svc(input *, struct svc_req *);
+extern  output * part_b_1(input *, CLIENT *);
+extern  output * part_b_1_svc(input *, struct svc_req *);
 extern int part_b_program_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
 #define part_b 1
-extern  int * part_b_1();
-extern  int * part_b_1_svc();
+extern  output * part_b_1();
+extern  output * part_b_1_svc();
 extern int part_b_program_1_freeresult ();
 #endif /* K&R C */
 
@@ -41,9 +47,11 @@ extern int part_b_program_1_freeresult ();
 
 #if defined(__STDC__) || defined(__cplusplus)
 extern  bool_t xdr_input (XDR *, input*);
+extern  bool_t xdr_output (XDR *, output*);
 
 #else /* K&R C */
 extern bool_t xdr_input ();
+extern bool_t xdr_output ();
 
 #endif /* K&R C */
 
