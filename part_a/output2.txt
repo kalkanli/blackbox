@@ -2,3 +2,7 @@ FAIL:
 Negative numbers are not accepted for this blackbox
 SUCCESS:
 1023
+SUCCESS:
+44
+SUCCESS:
+44
