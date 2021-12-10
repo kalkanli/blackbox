@@ -1,2 +1,4 @@
-68
+FAIL:
 Negative numbers are not accepted for this blackbox
+SUCCESS:
+1023
