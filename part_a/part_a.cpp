@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <fcntl.h>
+#include <cstring>
 
 using namespace std;
 
@@ -17,24 +18,21 @@ int main(int argc, char *argv[])
     {
         close(fd[0]);
 
-        int input[2];
-        scanf("%d %d", &input[0], &input[1]);
-        write(fd[1], input, sizeof(input));
+        string input;
+        getline (cin, input);
+        write(fd[1], input.c_str(), input.length());
     }
     else // child process
     {
-
         close(fd[1]);
 
-        int buffer[2];
-        read(fd[0], buffer, sizeof(buffer));
-
-        int file = open(output_file_name, O_RDWR | O_CREAT, 666);
-        int file2 = dup2(file, 1);
-        int file3 = dup2(file, 2);
-
+        int file = open(output_file_name, O_WRONLY | O_CREAT | O_APPEND, 0777);
         
+        dup2(fd[0], STDIN_FILENO);
+        dup2(file, STDERR_FILENO);
+        dup2(file, STDOUT_FILENO);
 
-        printf("%d, %d", *buffer, *(buffer + 1));
+
+        int result = execlp(blackbox, "blackbox", NULL);
     }
 }
